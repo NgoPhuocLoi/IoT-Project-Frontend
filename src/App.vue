@@ -34,14 +34,14 @@ const chartDataForMoisture = ref();
 const chartOptionsForMoisture = ref(null);
 
 const setChartDataForMoisture = () => {
-  const documentStyle = getComputedStyle(document.body);
   return {
     labels: [`Độ ẩm: ${moisture.value}`],
     datasets: [
       {
         label: "Độ ẩm",
-        backgroundColor: documentStyle.getPropertyValue("--pink-500"),
-        borderColor: documentStyle.getPropertyValue("--pink-500"),
+        backgroundColor: ['rgba(139, 92, 246, 0.2)'],
+        borderColor: ['rgb(139, 92, 246)'],
+        borderWidth: 5,
         data: [moisture.value],
       },
     ],
@@ -49,12 +49,9 @@ const setChartDataForMoisture = () => {
 };
 
 const setChartOptionsForMoisture = () => {
+
   const documentStyle = getComputedStyle(document.documentElement);
-  const textColor = documentStyle.getPropertyValue("--text-color");
-  const textColorSecondary = documentStyle.getPropertyValue(
-    "--text-color-secondary"
-  );
-  const surfaceBorder = documentStyle.getPropertyValue("--surface-border");
+  const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
   return {
     maintainAspectRatio: false,
@@ -62,14 +59,19 @@ const setChartOptionsForMoisture = () => {
     plugins: {
       legend: {
         labels: {
-          color: textColor,
+          color: "white",
+          font: {
+            // family: 'Exo 2',
+            size: 20,
+            weight: 'bold',
+          },
         },
       },
     },
     scales: {
       x: {
         ticks: {
-          color: textColorSecondary,
+          color: "white",
           font: {
             weight: 500,
           },
@@ -83,7 +85,7 @@ const setChartOptionsForMoisture = () => {
         min: 0,
         max: 1023,
         ticks: {
-          color: textColorSecondary,
+          color: "white",
           stepSize: 400,
         },
         grid: {
@@ -144,78 +146,61 @@ var isMobile = isMobileDevice();
 
 <template>
   <!-- <div class="bg-cover bg-center h-screen bg-[url('https://images.pexels.com/photos/907274/pexels-photo-907274.jpeg?auto=compress&cs=tinysrgb&w=600')]"> -->
-  <div class="md:h-screen bg-[] bg-gradient-to-r from-[#4FD2F7] to-[#F8EA52]">
-    <div
-      class="md:p-10 p-5 text-center md:text-5xl text-3xl text-[#4b55e9] font-bold font-['Poppins']"
-    >
+  <div class="bg-[#1E1E2F] text-white">
+    <div class="md:p-10 mx-5 bg-[#27293D] rounded-lg p-5 text-center md:text-5xl text-3xl font-bold">
       Hệ thống điều khiển và giám sát nhiệt độ, độ ẩm
     </div>
-    <div class="p-5 flex justify-center md:text-xl text-lg">
-      <div>
-        <div>Trạm: Đường 3/2, Xuân Khánh, Ninh Kiều, Cần Thơ</div>
-        <div>Ngày: {{ currentTime.toLocaleDateString() }}</div>
-        <div>Giờ: {{ currentTime.toLocaleTimeString() }}</div>
+    <div class="p-5 flex justify-center mt-5 mx-5 bg-[#27293D] rounded-lg">
+      <div class="*:text-2xl">
+        <div><b class="mr-[25px]">Trạm</b>:<b class="ml-[25px]">Đường 3/2, Xuân Khánh, Ninh Kiều, Cần Thơ</b></div>
+        <div><b class="mr-[25px]">Ngày</b>:<b class="ml-[25px]">{{ currentTime.toLocaleDateString() }}</b></div>
+        <div><b class="mr-[46px]">Giờ</b>:<b class="ml-[25px]">{{ currentTime.toLocaleTimeString() }}</b></div>
       </div>
     </div>
     <Toast />
-    <div class="md:p-10 p-0 mt-2 flex flex-col gap-5">
-      <div class="flex justify-between gap-4 md:flex-row flex-col">
-        <div class="md:w-fullflex flex-col">
+    <div class="md:p-10 p-0 flex flex-col gap-5 -mt-5 -mr-10 -ml-5">
+      <div class="flex justify-between -gap-[5px] md:flex-row flex-col">
+        <div class="md:w-full flex flex-col bg-[#27293D] rounded-lg">
           <div class="flex justify-center gap-10">
-            <Knob
-              v-model="tempC"
-              valueColor="#f97316"
-              readonly
-              :size="isMobile ? 150 : 300"
-              :min="0"
-              :max="100"
-              valueTemplate="{value}&#8451; "
-            />
-            <Knob
-              v-model="tempF"
-              valueColor="#f97316"
-              readonly
-              :size="isMobile ? 150 : 300"
-              :min="32"
-              :max="212"
-              valueTemplate="{value}&#8457; "
-            />
+            <Knob v-model="tempC" readonly :size="isMobile ? 150 : 300" :min="0" :max="100"
+              valueTemplate="{value}&#8451;" textColor="white" />
+            <Knob v-model="tempF" readonly :size="isMobile ? 150 : 300" :min="32" :max="212"
+              valueTemplate="{value}&#8457;" textColor="white" />
           </div>
-          <div class="flex justify-center p-4">
-            Nhiệt độ: {{ tempC }}&#8451;
+          <div class="flex justify-center p-4 text-2xl">
+            <b class="mr-[15px]">Nhiệt độ</b>:<b class="ml-[15px]">{{ tempC }}&#8451;</b>
           </div>
         </div>
         <div class="md:w-full flex flex-col">
-          <div class="md:h-[400px] h-[300px] flex justify-center">
-            <Chart
-              type="bar"
-              :data="chartDataForMoisture"
-              :options="chartOptionsForMoisture"
-            />
+          <div class="md:h-[400px] h-[300px] flex justify-center mx-5 bg-[#27293D] rounded-lg">
+            <Chart type="bar" :data="chartDataForMoisture" :options="chartOptionsForMoisture" />
           </div>
         </div>
       </div>
-      <div class="flex flex-col justify-between items-center gap-4">
-        <div class="md:text-2xl text-lg">
+      <div class="flex flex-col justify-between items-center gap-4 p-5 mr-5 bg-[#27293D] rounded-lg">
+        <div class="text-2xl font-bold">
           Trạng thái Motor: {{ motorStatus }}
           <span v-if="motorSignal == 2">(Tự động bật tắt)</span>
         </div>
         <div class="flex gap-5 pb-5">
-          <button
-            @click="handleToggleMotor"
-            :class="
-              motorStatus === 'ON'
-                ? 'bg-red-500 hover:bg-red-400'
-                : 'bg-green-500 hover:bg-green-400'
-            "
-            class="text-white font-bold md:text-xl text-lg py-3 px-5 rounded-lg"
-          >
+          <!-- <button @click="handleToggleMotor" :class="motorStatus === 'ON'
+          ? 'bg-red-500 hover:bg-red-400'
+          : 'bg-green-500 hover:bg-green-400'
+          " class="text-white font-bold text-2xl py-3 px-5 rounded-lg">
             {{ motorStatus === "ON" ? "Tắt Motor" : "Bật Motot" }}
-          </button>
-          <button
-            @click="handleAutomaticallyTurnOnMotor"
-            class="bg-cyan-500 hover:bg-cyan-400 text-white font-bold text-xl py-3 px-5 rounded-lg"
-          >
+          </button> -->
+
+          <label class="relative inline-flex cursor-pointer items-center">
+            <input @change="handleToggleMotor" type="checkbox" value="" checked class="peer sr-only" />
+            <div :class="motorStatus === 'ON' ? 'after:bg-green-500/40' : 'after:bg-red-500/40'"
+              class="peer flex w-[300px] h-14 items-center gap-4 rounded-full px-4 after:absolute after:left-1 after: after:h-14 after:w-[49%] after:rounded-full bg-stone-600 after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-focus:outline-none text-2xl text-white">
+              <span class="flex-1 text-center">Bật Motor</span>
+              <span class="flex-1 text-center">Tắt Motor</span>
+            </div>
+          </label>
+
+          <button @click="handleAutomaticallyTurnOnMotor"
+            class="bg-cyan-500 hover:bg-cyan-400 text-white font-bold text-2xl py-3 px-5 rounded-lg">
             Tự động bật tắt
           </button>
         </div>
@@ -223,3 +208,12 @@ var isMobile = isMobileDevice();
     </div>
   </div>
 </template>
+
+
+<style>
+* {
+  font-family: "Exo 2", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+</style>
