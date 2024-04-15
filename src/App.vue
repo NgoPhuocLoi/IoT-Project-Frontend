@@ -147,7 +147,7 @@ var isMobile = isMobileDevice();
   <!-- <div class="bg-cover bg-center h-screen bg-[url('https://images.pexels.com/photos/907274/pexels-photo-907274.jpeg?auto=compress&cs=tinysrgb&w=600')]"> -->
   <div class="bg-[#e1e2e4] text-black overflow-hidden">
     <div
-      class="md:p-10 mx-5 border bg-[#FFFFFF] rounded-lg p-5 text-center md:text-5xl text-3xl font-bold"
+      class="md:p-10 mx-5 border bg-[#FFFFFF] rounded-lg p-5 text-center md:text-5xl text-3xl font-bold mt-5"
     >
       Hệ thống điều khiển và giám sát nhiệt độ, độ ẩm
     </div>
@@ -173,10 +173,12 @@ var isMobile = isMobileDevice();
       </div>
     </div>
     <Toast />
-    <div class="md:p-10 p-0 flex flex-col gap-5 -mt-5 -mr-10 -ml-5">
+    <div class="md:p-10 p-0 flex flex-col md:gap-5 md:-mt-5 md:-mr-10 md:-ml-5">
       <div class="flex justify-between -gap-[5px] md:flex-row flex-col">
-        <div class="md:w-full flex flex-col bg-[#FFFFFF] border rounded-lg">
-          <div class="flex justify-center gap-10">
+        <div
+          class="md:w-full flex flex-col bg-[#FFFFFF] border rounded-lg md:m-0 m-5"
+        >
+          <div class="flex justify-center gap-10 mt-5">
             <Knob
               v-model="tempC"
               readonly
@@ -204,7 +206,7 @@ var isMobile = isMobileDevice();
         </div>
         <div class="md:w-full flex flex-col">
           <div
-            class="md:h-[400px] h-[300px] flex flex-col items-center justify-center mx-5 bg-[#FFFFFF] border rounded-lg"
+            class="md:h-[400px] h-[200px] flex flex-col items-center justify-center mx-5 bg-[#FFFFFF] border rounded-lg"
           >
             <Knob
               v-model="moisture"
@@ -215,14 +217,14 @@ var isMobile = isMobileDevice();
               valueTemplate="{value}%"
               textColor="black"
             />
-            <div class="flex justify-center p-4 md:text-2xl text-lg">
+            <div class="flex justify-center md:p-4 md:text-2xl text-lg">
               <b>Độ ẩm</b>
             </div>
           </div>
         </div>
       </div>
       <div
-        class="flex flex-col justify-between items-center gap-4 p-5 mr-5 border bg-[#FFFFFF] rounded-lg"
+        class="flex flex-col justify-between items-center gap-4 md:p-5 p-3 md:mr-5 md:m-0 m-5 border bg-[#FFFFFF] rounded-lg"
       >
         <div class="md:text-2xl text-lg font-bold">
           Trạng thái Motor: {{ motorStatus }}
@@ -236,13 +238,13 @@ var isMobile = isMobileDevice();
                 ? 'bg-red-500 hover:bg-red-400'
                 : 'bg-green-500 hover:bg-green-400'
             "
-            class="text-white font-bold md:text-xl text-lg py-3 px-5 rounded-lg"
+            class="text-white font-bold md:text-xl text-sm py-3 px-5 rounded-lg"
           >
-            {{ motorStatus === "ON" ? "Tắt Motor" : "Bật Motot" }}
+            {{ motorStatus === "ON" ? "Tắt Motor" : "Bật Motor" }}
           </button>
           <button
             @click="handleAutomaticallyTurnOnMotor"
-            class="bg-cyan-500 hover:bg-cyan-400 text-white font-bold text-xl py-3 px-5 rounded-lg"
+            class="bg-cyan-500 hover:bg-cyan-400 text-white font-bold md:text-xl text-sm py-3 px-5 rounded-lg"
           >
             Tự động bật tắt
           </button>
